@@ -12,7 +12,7 @@ export const Contact = () => {
         setStatus('loading');
 
         const formData = new FormData(e.currentTarget);
-        formData.append("access_key", "b6b50bdf-47a4-477d-a7be-01d5f6b944e0");
+        formData.append("access_key", "5fe970fd-91f4-448f-83da-8565152ff054");
 
         try {
             const response = await fetch("https://api.web3forms.com/submit", {
