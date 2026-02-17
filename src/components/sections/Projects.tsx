@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Github, ExternalLink, Server, Bot, Database, Zap } from 'lucide-react';
+import { Github, ExternalLink, Server, Bot, Database, Zap, Brain } from 'lucide-react';
 
 const projects = [
     {
@@ -82,18 +82,25 @@ export const Projects = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
-                            className="group glass-card flex flex-col hover:border-indigo-500/30 transition-all"
+                            className="group glass-card flex flex-col hover:border-indigo-500/30 transition-all cursor-pointer relative"
                         >
+                            <a
+                                href={project.github}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="absolute inset-0 z-20"
+                                aria-label={`View ${project.title} on GitHub`}
+                            />
                             <div className={`h-48 relative overflow-hidden bg-gradient-to-br ${project.color} flex items-center justify-center`}>
                                 <project.icon size={64} className="text-indigo-400/50 group-hover:scale-110 transition-transform duration-500" />
-                                <div className="absolute top-4 right-4 flex gap-2">
-                                    <a href={project.github} target="_blank" className="p-2 bg-slate-900/80 rounded-lg text-slate-400 hover:text-white transition-colors backdrop-blur-sm">
+                                <div className="absolute top-4 right-4 flex gap-2 z-30">
+                                    <div className="p-2 bg-slate-900/80 rounded-lg text-slate-400 group-hover:text-white transition-colors backdrop-blur-sm">
                                         <Github size={18} />
-                                    </a>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="p-8 flex-grow flex flex-col">
+                            <div className="p-8 flex-grow flex flex-col relative z-10">
                                 <span className="text-indigo-400 text-xs font-bold uppercase tracking-wider mb-2">{project.category}</span>
                                 <h4 className="text-2xl font-bold text-white mb-4 group-hover:text-indigo-400 transition-colors">{project.title}</h4>
                                 <p className="text-slate-400 mb-6 flex-grow leading-relaxed">
