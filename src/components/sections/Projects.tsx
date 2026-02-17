@@ -11,7 +11,7 @@ const projects = [
         description: "SaaS-style platform with RBAC, weekly menu management, and real-time feedback. Built with a scalable REST API architecture.",
         tech: ["React", "FastAPI", "SQLAlchemy", "JWT", "Tailwind"],
         icon: Server,
-        github: "https://github.com/vaibhavgaikwad0072",
+        github: "https://github.com/vaibhavgaikwad0072/Mess_Managment_System/",
         color: "from-blue-500/20 to-indigo-500/20"
     },
     {
@@ -20,7 +20,7 @@ const projects = [
         description: "Retrieval-Augmented Generation pipeline combining vector-based semantic search with LLMs for context-aware academic support.",
         tech: ["Python", "LangChain", "LLMs", "FAISS", "Streamlit"],
         icon: Bot,
-        github: "https://github.com/vaibhavgaikwad0072",
+        github: "https://github.com/vaibhavgaikwad0072/RAG-Based-AI-Teaching-Assistant",
         color: "from-indigo-500/20 to-purple-500/20"
     },
     {
@@ -29,7 +29,7 @@ const projects = [
         description: "Intelligent natural language to SQL converter using ReAct agent architecture with structured error handling.",
         tech: ["LangChain", "Gemini 2.0", "SQLAlchemy", "Streamlit"],
         icon: Database,
-        github: "https://github.com/vaibhavgaikwad0072",
+        github: "https://github.com/vaibhavgaikwad0072/Text-To-SQL",
         color: "from-teal-500/20 to-blue-500/20"
     },
     {
@@ -38,8 +38,17 @@ const projects = [
         description: "Transfer learning pipeline using EfficientNetB0 to classify solar panel faults with 83% validation accuracy.",
         tech: ["TensorFlow", "EfficientNet", "Keras Tuner", "OpenCV"],
         icon: Zap,
-        github: "https://github.com/vaibhavgaikwad0072",
+        github: "https://github.com/vaibhavgaikwad0072/Solar-Panel-Defect-Classification/tree/main",
         color: "from-orange-500/20 to-red-500/20"
+    },
+    {
+        title: "Movie Recommendation System",
+        category: "Machine Learning",
+        description: "Personalized content-based filtering system using TMDB dataset to suggest movies based on similarity metrics.",
+        tech: ["Python", "Pandas", "Scikit-Learn", "NLTK", "API"],
+        icon: Brain,
+        github: "https://github.com/vaibhavgaikwad0072/Moive-Recommendation-system",
+        color: "from-pink-500/20 to-rose-500/20"
     }
 ];
 
