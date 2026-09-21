@@ -8,9 +8,36 @@ import { Experience } from "@/components/sections/Experience";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/Footer";
 
+const personStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Vaibhav Gaikwad",
+  url: "https://vaibhavgaikwad0072.github.io",
+  jobTitle: "Software Engineer",
+  description:
+    "Software engineer and AI systems builder focused on backend systems, machine learning, and LLM applications.",
+  sameAs: [
+    "https://github.com/vaibhavgaikwad0072",
+    "https://www.linkedin.com/in/vaibhav-gaikwad-50a1b4257/",
+  ],
+  knowsAbout: [
+    "Software engineering",
+    "Artificial intelligence",
+    "Machine learning",
+    "FastAPI",
+    "React",
+    "Large language model applications",
+  ],
+};
+
 export default function Home() {
   return (
-    <main className="bg-slate-950 text-white min-h-screen">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personStructuredData) }}
+      />
+      <main className="bg-slate-950 text-white min-h-screen">
       <Navbar />
       <Hero />
       <About />
@@ -20,6 +47,7 @@ export default function Home() {
       <Experience />
       <Contact />
       <Footer />
-    </main>
+      </main>
+    </>
   );
 }
