@@ -1,170 +1,173 @@
-"use client";
+import { useState } from 'react';
+import { Check, Copy, Github, Globe, Linkedin, Mail, MapPin, Send, type LucideIcon } from 'lucide-react';
+import { useContent } from '../../store/ContentProvider';
+import { Reveal } from '../fx/Reveal';
+import { ContactForm } from '../forms/ContactForm';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Mail, Github, Linkedin, Send, MapPin, CheckCircle2, AlertCircle } from 'lucide-react';
+interface Channel {
+  label: string;
+  value: string;
+  href: string;
+  icon: LucideIcon;
+  action?: () => void;
+  actionLabel?: string;
+  disabled?: boolean;
+}
 
-export const Contact = () => {
-    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+export function Contact() {
+  const { content } = useContent();
+  const { settings } = content;
+  const [copied, setCopied] = useState(false);
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setStatus('loading');
+  async function copyEmail() {
+    try {
+      await navigator.clipboard.writeText(settings.email);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      setCopied(false);
+    }
+  }
 
-        const formData = new FormData(e.currentTarget);
-        formData.append("access_key", "5fe970fd-91f4-448f-83da-8565152ff054");
+  const channels: Channel[] = [
+    {
+      label: 'Email',
+      value: settings.email,
+      href: `mailto:${settings.email}`,
+      icon: Mail,
+      action: copyEmail,
+      actionLabel: copied ? 'Copied' : 'Copy',
+    },
+    {
+      label: 'GitHub',
+      value: settings.github.replace('https://', ''),
+      href: settings.github,
+      icon: Github,
+    },
+    ...(settings.linkedin
+      ? [
+          {
+            label: 'LinkedIn',
+            value: settings.linkedin.replace('https://www.', '').replace('https://', ''),
+            href: settings.linkedin,
+            icon: Linkedin,
+          },
+        ]
+      : [
+          {
+            label: 'LinkedIn',
+            value: 'Profile link coming soon',
+            href: '',
+            icon: Linkedin,
+            disabled: true,
+          },
+        ]),
+    {
+      label: 'Portfolio',
+      value: settings.portfolio.replace('https://', ''),
+      href: settings.portfolio,
+      icon: Globe,
+    },
+  ];
 
-        try {
-            const response = await fetch("https://api.web3forms.com/submit", {
-                method: "POST",
-                body: formData
-            });
+  return (
+    <section id="contact" className="relative overflow-hidden border-t border-white/[0.05] py-24 sm:py-28">
+      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
+        <div className="absolute left-1/2 top-0 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-violet-600/[0.12] blur-[130px]" />
+        <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-electric-500/10 blur-[100px]" />
+        <div className="absolute inset-0 bg-grid-faint bg-[length:80px_80px] opacity-20 mask-fade-b" />
+      </div>
 
-            const data = await response.json();
+      <div className="container-x">
+        <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
+          <div>
+            <Reveal>
+              <span className="eyebrow">
+                <span className="h-px w-8 bg-gradient-to-r from-violet-400 to-electric-400" aria-hidden />
+                06 · Contact
+              </span>
+            </Reveal>
+            <Reveal delay={0.06}>
+              <h2 className="mt-4 max-w-lg text-3xl font-semibold leading-[1.08] tracking-tight text-white sm:text-4xl lg:text-[2.9rem]">
+                Have an idea? <span className="text-gradient">Let's build it together.</span>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.12}>
+              <p className="mt-4 max-w-md text-[14.5px] leading-relaxed text-slate-400">
+                I'm open to AI engineering roles and a limited set of freelance projects. If you are working on something
+                where retrieval, models or data quality matter, I'd like to hear about it.
+              </p>
+            </Reveal>
 
-            if (data.success) {
-                setStatus('success');
-                (e.target as HTMLFormElement).reset();
-            } else {
-                setStatus('error');
-            }
-        } catch (error) {
-            setStatus('error');
-        }
-    };
-
-    return (
-        <section id="contact" className="py-24 bg-slate-950 relative overflow-hidden">
-            {/* Background Decor */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-900/10 rounded-full blur-[120px] pointer-events-none" />
-
-            <div className="container mx-auto px-6 relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
-                    <div>
-                        <h2 className="text-sm font-bold text-indigo-500 uppercase tracking-widest mb-4">Connect</h2>
-                        <h3 className="text-4xl md:text-5xl font-extrabold text-white mb-8">
-                            Let's Build Something <span className="text-gradient">Intelligent</span>.
-                        </h3>
-                        <p className="text-slate-400 text-lg mb-12 max-w-md">
-                            I'm always open to discussing backend system design, AI integration, or new engineering opportunities.
-                            Let's connect and push the boundaries of what's possible.
-                        </p>
-
-                        <div className="space-y-8">
-                            <div className="flex items-center gap-6 group">
-                                <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-500 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
-                                    <Mail size={24} />
-                                </div>
-                                <div>
-                                    <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Email</p>
-                                    <a href="mailto:vaibhavgaikwad3746@gmail.com" className="text-xl font-bold text-white hover:text-indigo-400 transition-colors underline decoration-indigo-500/30">vaibhavgaikwad3746@gmail.com</a>
-                                </div>
-                            </div>
-
-                            <div className="flex items-center gap-6 group">
-                                <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-500 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
-                                    <MapPin size={24} />
-                                </div>
-                                <div>
-                                    <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Location</p>
-                                    <p className="text-xl font-bold text-white">Maharashtra, India</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center gap-4 mt-12">
-                            <a href="https://github.com/vaibhavgaikwad0072" target="_blank" rel="noopener noreferrer" className="p-4 rounded-xl glass-card bg-slate-900/50 hover:bg-slate-800 transition-all text-slate-300 hover:text-white">
-                                <Github size={24} />
-                            </a>
-                            <a href="https://www.linkedin.com/in/vaibhav-gaikwad-50a1b4257/" target="_blank" rel="noopener noreferrer" className="p-4 rounded-xl glass-card bg-slate-900/50 hover:bg-slate-800 transition-all text-slate-300 hover:text-white">
-                                <Linkedin size={24} />
-                            </a>
-                        </div>
-                    </div>
-
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        className="glass-card p-10 border-indigo-500/20"
-                    >
-                        {status === 'success' ? (
-                            <div className="flex flex-col items-center justify-center py-12 text-center">
-                                <CheckCircle2 size={64} className="text-green-500 mb-6" />
-                                <h4 className="text-2xl font-bold text-white mb-2">Message Sent!</h4>
-                                <p className="text-slate-400">Thanks for reaching out, Vaibhav will get back to you soon.</p>
-                                <button
-                                    onClick={() => setStatus('idle')}
-                                    className="mt-8 text-indigo-400 font-bold hover:text-indigo-300"
-                                >
-                                    Send another message
-                                </button>
-                            </div>
-                        ) : (
-                            <form className="space-y-6" onSubmit={handleSubmit}>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Full Name</label>
-                                        <input
-                                            required
-                                            name="name"
-                                            type="text"
-                                            placeholder="John Doe"
-                                            className="w-full bg-slate-900/50 border border-slate-800 rounded-xl px-4 py-3 text-white focus:border-indigo-500 outline-none transition-all"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Email Address</label>
-                                        <input
-                                            required
-                                            name="email"
-                                            type="email"
-                                            placeholder="john@example.com"
-                                            className="w-full bg-slate-900/50 border border-slate-800 rounded-xl px-4 py-3 text-white focus:border-indigo-500 outline-none transition-all"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Subject</label>
-                                    <input
-                                        required
-                                        name="subject"
-                                        type="text"
-                                        placeholder="Project Collaboration"
-                                        className="w-full bg-slate-900/50 border border-slate-800 rounded-xl px-4 py-3 text-white focus:border-indigo-500 outline-none transition-all"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Message</label>
-                                    <textarea
-                                        required
-                                        name="message"
-                                        rows={4}
-                                        placeholder="Tell me about your project..."
-                                        className="w-full bg-slate-900/50 border border-slate-800 rounded-xl px-4 py-3 text-white focus:border-indigo-500 outline-none transition-all resize-none"
-                                    ></textarea>
-                                </div>
-
-                                {status === 'error' && (
-                                    <div className="flex items-center gap-2 text-red-500 text-sm bg-red-500/10 p-4 rounded-lg">
-                                        <AlertCircle size={16} />
-                                        <span>Something went wrong. Please try again or email directly.</span>
-                                    </div>
-                                )}
-
-                                <button
-                                    disabled={status === 'loading'}
-                                    type="submit"
-                                    className="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-600/50 text-white font-bold transition-all flex items-center justify-center gap-3 shadow-lg shadow-indigo-600/20 mt-4 group"
-                                >
-                                    {status === 'loading' ? "Sending..." : "Send Message"}
-                                    <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                                </button>
-                            </form>
-                        )}
-                    </motion.div>
-                </div>
+            <div className="mt-9 space-y-2.5">
+              {channels.map((channel) => {
+                const Icon = channel.icon;
+                return (
+                  <div
+                    key={channel.label}
+                    className={
+                      channel.disabled
+                        ? 'flex items-center gap-3 rounded-xl border border-white/[0.05] bg-white/[0.015] px-3.5 py-2.5 opacity-60'
+                        : 'group relative flex items-center gap-3 rounded-xl border border-white/[0.07] bg-white/[0.025] px-3.5 py-2.5 transition hover:border-white/[0.15] hover:bg-white/[0.045]'
+                    }
+                  >
+                    {channel.disabled ? null : (
+                      <a
+                        href={channel.href}
+                        target={channel.href.startsWith('http') ? '_blank' : undefined}
+                        rel={channel.href.startsWith('http') ? 'noreferrer' : undefined}
+                        className="absolute inset-0 rounded-xl focus-visible:outline-offset-4"
+                        aria-label={`${channel.label}: ${channel.value}`}
+                      />
+                    )}
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-white/10 bg-white/[0.03] text-slate-300 transition group-hover:border-violet-400/30 group-hover:text-white">
+                      <Icon className="h-4 w-4" aria-hidden />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-mono text-[9px] uppercase tracking-[0.2em] text-slate-500">
+                        {channel.label}
+                      </span>
+                      <span className="block truncate text-[13px] text-slate-200">{channel.value}</span>
+                    </span>
+                    {channel.disabled ? (
+                      <span className="font-mono text-[9px] uppercase tracking-wider text-slate-600">Soon</span>
+                    ) : channel.action ? (
+                      <button
+                        type="button"
+                        onClick={channel.action}
+                        className="relative z-10 inline-flex items-center gap-1 rounded-lg border border-white/10 px-2.5 py-1 text-[10px] text-slate-300 transition hover:border-white/25 hover:text-white"
+                        aria-label={copied ? 'Email copied' : 'Copy email address'}
+                      >
+                        {copied ? <Check className="h-3 w-3 text-emerald-400" aria-hidden /> : <Copy className="h-3 w-3" aria-hidden />}
+                        {channel.actionLabel}
+                      </button>
+                    ) : (
+                      <Send className="h-3.5 w-3.5 text-slate-600 transition group-hover:text-violet-300" aria-hidden />
+                    )}
+                  </div>
+                );
+              })}
             </div>
-        </section>
-    );
-};
+
+            <Reveal delay={0.18}>
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/[0.06] pt-6 text-[11.5px] text-slate-500">
+                <span className="inline-flex items-center gap-2">
+                  <MapPin className="h-3.5 w-3.5 text-electric-300" aria-hidden />
+                  {settings.location} · IST (UTC+5:30)
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden />
+                  {settings.availability}
+                </span>
+              </div>
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.1}>
+            <ContactForm />
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}

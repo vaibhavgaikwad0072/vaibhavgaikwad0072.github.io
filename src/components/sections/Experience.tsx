@@ -1,131 +1,115 @@
-"use client";
+import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { useContent } from '../../store/ContentProvider';
+import { Reveal, SectionHeading } from '../fx/Reveal';
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Briefcase, GraduationCap, Calendar } from 'lucide-react';
+export function Experience() {
+  const { content } = useContent();
 
-const experiences = [
-    {
-        role: "Data Science Intern",
-        company: "YBI Foundation",
-        period: "2024",
-        points: [
-            "Developed ML-based signature recognition system using deep learning techniques.",
-            "Built end-to-end preprocessing and training pipeline for robustness.",
-            "Optimized model performance for real-world document verification."
-        ]
-    },
-    {
-        role: "Club Secretary",
-        company: "Institute Technical Club",
-        period: "2023 - 2024",
-        points: [
-            "Led event planning and technical coordination for 500+ participants.",
-            "Managed communication with faculty, stakeholders, and team members.",
-            "Oversaw budget allocation and technical workshop organization."
-        ]
-    }
-];
+  return (
+    <section id="experience" className="relative border-y border-white/[0.05] bg-ink-900/25 py-24 sm:py-28">
+      <div className="pointer-events-none absolute right-0 top-1/4 h-72 w-72 rounded-full bg-electric-500/10 blur-[110px]" aria-hidden />
+      <div className="container-x relative">
+        <SectionHeading
+          eyebrow="04 · Experience"
+          title={
+            <>
+              Where I've <span className="text-gradient-accent">done the work</span>
+            </>
+          }
+          description="Training and internship experience, presented as it was — real models, real dashboards, real constraints."
+        />
 
-const education = [
-    {
-        degree: "B.E. Artificial Intelligence & Data Science",
-        school: "Dr. D. Y. Patil Institute of Technology",
-        location: "Maharashtra, India",
-        period: "2022 - 2026",
-        grade: "CGPA: 8.26 / 10"
-    },
-    {
-        degree: "Higher Secondary Certificate (12th)",
-        school: "MES Waghire Junior College, Saswad",
-        location: "MSBSHSE | Maharashtra, India",
-        period: "2020 - 2022",
-        grade: "Percentage: 76.17 / 100"
-    },
-    {
-        degree: "Secondary School Certificate (10th)",
-        school: "SHRI SADGURU SAMARTH HAMBIRBABA VIDYALAYA TAKALI BHIMA, Pune",
-        location: "MSBSHSE | Maharashtra, India",
-        period: "2019 - 2020",
-        grade: "Percentage: 90.20 / 100"
-    }
-];
-
-export const Experience = () => {
-    return (
-        <section id="experience" className="py-24 bg-slate-950">
-            <div className="container mx-auto px-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
-                    {/* Experience Column */}
+        <div className="grid gap-6 lg:grid-cols-[1.5fr_0.8fr]">
+          {content.experience.map((item) => (
+            <Reveal key={item.id}>
+              <article className="glass relative h-full overflow-hidden rounded-2xl p-6 sm:p-8">
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div className="flex items-start gap-4">
+                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-white/10 bg-gradient-to-br from-violet-500/20 to-electric-500/10 font-display text-sm font-bold text-white">
+                      IR
+                    </span>
                     <div>
-                        <h2 className="text-sm font-bold text-indigo-500 uppercase tracking-widest mb-4">Journey</h2>
-                        <h3 className="text-4xl font-extrabold text-white mb-12">Professional <span className="text-gradient">Experience</span></h3>
-
-                        <div className="space-y-12">
-                            {experiences.map((exp, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    className="relative pl-8 border-l border-slate-800"
-                                >
-                                    <div className="absolute left-[-5px] top-0 w-[9px] h-[9px] bg-indigo-500 rounded-full" />
-                                    <div className="flex items-center gap-2 text-indigo-400 text-sm font-bold mb-2">
-                                        <Calendar size={14} /> {exp.period}
-                                    </div>
-                                    <h4 className="text-2xl font-bold text-white mb-1">{exp.role}</h4>
-                                    <p className="text-slate-400 font-medium mb-4 flex items-center gap-2">
-                                        <Briefcase size={16} /> {exp.company}
-                                    </p>
-                                    <ul className="space-y-3">
-                                        {exp.points.map((point, index) => (
-                                            <li key={index} className="text-slate-400 text-sm flex gap-3">
-                                                <span className="text-indigo-500 mt-1.5 w-1.5 h-1.5 rounded-full shrink-0" />
-                                                {point}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </motion.div>
-                            ))}
-                        </div>
+                      <h3 className="text-lg font-semibold text-white">{item.role}</h3>
+                      <p className="mt-0.5 text-[13px] text-electric-300">{item.org}</p>
+                      <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-slate-500">
+                        {item.period} · {item.location}
+                      </p>
                     </div>
-
-                    {/* Education Column */}
-                    <div>
-                        <h2 className="text-sm font-bold text-indigo-500 uppercase tracking-widest mb-4">Academics</h2>
-                        <h3 className="text-4xl font-extrabold text-white mb-12">Formal <span className="text-gradient">Education</span></h3>
-
-                        <div className="space-y-8">
-                            {education.map((edu, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, x: 20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    className="glass-card p-8 border-l-4 border-l-indigo-600"
-                                >
-                                    <div className="flex items-center gap-3 text-indigo-400 mb-6">
-                                        <GraduationCap size={32} />
-                                        <div>
-                                            <h4 className="text-xl font-bold text-white leading-tight">{edu.degree}</h4>
-                                            <p className="text-sm text-slate-500">{edu.period}</p>
-                                        </div>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <p className="text-slate-300 font-semibold">{edu.school}</p>
-                                        <p className="text-slate-500 text-sm">{edu.location}</p>
-                                        <div className="mt-4 pt-4 border-t border-slate-800 flex justify-between items-center">
-                                            <span className="text-slate-400 text-sm uppercase font-bold tracking-wider">Academic Standing</span>
-                                            <span className="text-white font-black text-xl">{edu.grade}</span>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
+                  </div>
+                  <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.15em] text-slate-400">
+                    {item.mode}
+                  </span>
                 </div>
-            </div>
-        </section>
-    );
-};
+
+                <p className="mt-6 text-[13.5px] leading-relaxed text-slate-400">{item.summary}</p>
+
+                <ul className="mt-5 space-y-3">
+                  {item.bullets.map((bullet) => (
+                    <li key={bullet} className="flex items-start gap-3 text-[13px] leading-relaxed text-slate-300">
+                      <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-violet-400/80" aria-hidden />
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-6 flex flex-wrap gap-1.5 border-t border-white/[0.06] pt-5">
+                  {item.tech.map((tech) => (
+                    <span key={tech} className="chip !text-[10px]">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            </Reveal>
+          ))}
+
+          <div className="space-y-4">
+            <Reveal delay={0.1}>
+              <div className="glass rounded-2xl p-6">
+                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-slate-500">How I work</p>
+                <ul className="mt-4 space-y-4">
+                  {[
+                    {
+                      title: 'Understand before modelling',
+                      body: 'Sketch the problem, constraints and what a wrong answer would cost.',
+                    },
+                    {
+                      title: 'Validate the data first',
+                      body: 'Most model failures are data failures wearing a different hat.',
+                    },
+                    {
+                      title: 'Measure honestly',
+                      body: 'Proper splits, stated limitations, and no cherry-picked numbers.',
+                    },
+                  ].map((principle, index) => (
+                    <li key={principle.title} className="flex gap-3">
+                      <span className="font-mono text-[10px] text-violet-400/70">0{index + 1}</span>
+                      <div>
+                        <p className="text-[13px] font-medium text-white">{principle.title}</p>
+                        <p className="mt-1 text-[12px] leading-relaxed text-slate-500">{principle.body}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.16}>
+              <a
+                href={content.settings.resumeUrl}
+                download
+                className="group flex items-center justify-between gap-4 rounded-2xl border border-violet-400/20 bg-gradient-to-br from-violet-500/[0.12] to-electric-500/[0.06] p-5 transition hover:border-violet-400/40"
+              >
+                <div>
+                  <p className="text-[13px] font-medium text-white">Full resume, PDF</p>
+                  <p className="mt-0.5 text-[11.5px] text-slate-400">Education, projects and certifications</p>
+                </div>
+                <ArrowUpRight className="h-4 w-4 text-violet-300 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
+              </a>
+            </Reveal>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

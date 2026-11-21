@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://vaibhavgaikwad0072.github.io/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://vaibhavgaikwad0072.github.io/projects/healthlens</loc><priority>0.8</priority></url>
+  <url><loc>https://vaibhavgaikwad0072.github.io/projects/rag-teaching-assistant</loc><priority>0.8</priority></url>
+  <url><loc>https://vaibhavgaikwad0072.github.io/projects/text-to-sql</loc><priority>0.8</priority></url>
+  <url><loc>https://vaibhavgaikwad0072.github.io/projects/dataguard-ai</loc><priority>0.8</priority></url>
+  <url><loc>https://vaibhavgaikwad0072.github.io/projects/contextforge-ai</loc><priority>0.8</priority></url>
+  <url><loc>https://vaibhavgaikwad0072.github.io/projects/transaction-risk-investigation</loc><priority>0.8</priority></url>
+</urlset>
