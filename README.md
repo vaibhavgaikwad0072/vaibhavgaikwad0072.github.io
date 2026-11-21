@@ -1,5 +1,7 @@
 # Vaibhav Gaikwad — Portfolio
 
+Live: https://vaibhavgaikwad0072.github.io/
+
 A dark, animated portfolio for an AI engineer: cinematic hero, particle canvas, 3D-tilt project cards, case-study pages, a services inquiry flow, and a browser-based admin dashboard for editing the content.
 
 Built with React 18, TypeScript, Vite, Tailwind CSS, Framer Motion and React Router. No UI kit, no template.
